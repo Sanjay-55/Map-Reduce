@@ -1,0 +1,87 @@
+import threading
+from queue import Queue
+
+# Define the mapping function
+def map_func(chunk, results):
+    word_count = {}
+    for word in chunk.split():
+        if word in word_count:
+            word_count[word] += 1
+        else:
+            word_count[word] = 1
+    results.put(word_count)
+
+# Define the reducing function
+def reduce_func(word_counts, results):
+    word_count = {}
+    for wc in iter(word_counts.get, None):
+        for word, count in wc.items():
+            if word in word_count:
+                word_count[word] += count
+            else:
+                word_count[word] = count
+    results.put(word_count)
+
+# Define the shuffle function
+def shuffle(word_counts):
+    shuffled = {}
+    for wc in word_counts:
+        for word, count in wc.items():
+            if word in shuffled:
+                shuffled[word].append(count)
+            else:
+                shuffled[word] = [count]
+    return shuffled
+
+# Read the input file and split it into chunks
+with open('input.txt', 'r') as f:
+    data = f.read()
+    chunk_size = len(data) // threading.active_count()
+    chunks = [data[i:i+chunk_size] for i in range(0, len(data), chunk_size)]
+
+# Create the worker threads
+map_results = Queue()
+reduce_results = Queue()
+threads = []
+for chunk in chunks:
+    t = threading.Thread(target=map_func, args=(chunk, map_results))
+    threads.append(t)
+
+# Start the worker threads
+for t in threads:
+    t.start()
+
+# Wait for all threads to finish
+for t in threads:
+    t.join()
+
+# Combine the results from the worker threads
+word_counts = []
+while not map_results.empty():
+    word_counts.append(map_results.get())
+    
+# Shuffle the word counts
+shuffled = shuffle(word_counts)
+
+# Create the reducer threads
+threads = []
+for i in range(threading.active_count()):
+    wc = {k:v for j, (k,v) in enumerate(shuffled.items()) if j % threading.active_count() == i}
+    t = threading.Thread(target=reduce_func, args=(Queue(list(wc.values())), reduce_results))
+    threads.append(t)
+
+# Start the reducer threads
+for t in threads:
+    t.start()
+
+# Wait for all threads to finish
+for t in threads:
+    t.join()
+
+# Combine the results from the reducer threads
+final_word_count = {}
+while not reduce_results.empty():
+    final_word_count.update(reduce_results.get())
+    
+# Print the final word count
+print(final_word_count)
