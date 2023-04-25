@@ -1,4 +1,0 @@
-{'Apple': 1, 'may': 1, 'be': 1, 'in': 1, 'red': 1, 'or': 1, 'green': 1, 'color.': 1}
-{'Apple': 1, 'is': 1, 'good': 1, 'for': 1, 'health.': 1}
-{'If': 1, 'we': 1, 'eat': 1, 'one': 1, 'Apple': 1, 'everyday': 1, 'then': 1, 'there': 1, 'is': 1, 'no': 1, 'necessary': 1, 'to': 1, 'go': 1, 'visit': 1, 'Doctor.': 1}
-{'So': 1, 'Apple': 1, 'is': 1, 'very': 1, 'rich': 1, 'in': 1, 'vitamins': 1, 'and': 1, 'it': 1, 'a': 1, 'healthy': 1, 'fruit.': 1}
