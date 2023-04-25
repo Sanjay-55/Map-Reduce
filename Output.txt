@@ -1,1 +1,0 @@
-{'Apple': 3, 'may': 1, 'be': 1, 'in': 1, 'red': 1, 'or': 1, 'green': 1, 'color.': 1, 'is': 1, 'good': 1, 'for': 1, 'health.': 1, 'If': 1, 'we': 1, 'eat': 1, 'one': 1, 'everyday': 1, 'then': 1, 'there': 1, 'no': 1, 'necessary': 1, 'to': 1, 'go': 1, 'visit': 1, 'Doctor.': 1}
